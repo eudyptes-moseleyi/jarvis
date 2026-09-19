@@ -1,422 +1,507 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS AI</title>
 
-    <title>JARVIS AI</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at center, #06252b 0%, #02090c 45%, #000 100%);
+    color: #00f6ff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at center, #062b35 0%, #021218 45%, #010609 100%);
-            color: #00f6ff;
-            font-family: Arial, Helvetica, sans-serif;
-            overflow: hidden;
-        }
+.hidden {
+    display: none !important;
+}
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                linear-gradient(rgba(0, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-        }
+/* =========================
+   LOGIN / CADASTRO
+========================= */
 
-        .app {
-            width: 100%;
-            max-width: 1100px;
-            height: 100vh;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+#authScreen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
-        header {
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            border-bottom: 1px solid rgba(0, 246, 255, 0.25);
-            background: rgba(0, 10, 15, 0.55);
-            backdrop-filter: blur(10px);
-        }
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    border: 1px solid #00eaff;
+    border-radius: 20px;
+    background: rgba(0, 15, 20, 0.92);
+    box-shadow:
+        0 0 20px rgba(0, 234, 255, 0.25),
+        inset 0 0 30px rgba(0, 234, 255, 0.04);
+}
 
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 5px;
-            text-shadow:
-                0 0 8px #00f6ff,
-                0 0 25px #00f6ff;
-        }
+.logo {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px #00eaff;
+    margin-bottom: 10px;
+}
 
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #8ffcff;
-        }
+.subtitle {
+    text-align: center;
+    color: #8beef4;
+    margin-bottom: 30px;
+}
 
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #00ff88;
-            box-shadow: 0 0 12px #00ff88;
-        }
+.auth-box input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: 1px solid #087985;
+    border-radius: 10px;
+    background: #031317;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
 
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-        }
+.auth-box input:focus {
+    border-color: #00eaff;
+    box-shadow: 0 0 10px rgba(0,234,255,.25);
+}
 
-        .core-area {
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            flex-shrink: 0;
-        }
+.auth-button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #00d9e8;
+    color: #001014;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .core {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 2px solid #00f6ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow:
-                0 0 15px #00f6ff,
-                0 0 40px rgba(0, 246, 255, 0.6),
-                inset 0 0 30px rgba(0, 246, 255, 0.25);
-            animation: pulse 2.5s infinite ease-in-out;
-        }
+.auth-button:hover {
+    background: #5df6ff;
+    box-shadow: 0 0 18px rgba(0,234,255,.45);
+}
 
-        .core::before,
-        .core::after {
-            content: "";
-            position: absolute;
-            border: 1px solid rgba(0, 246, 255, 0.65);
-            border-radius: 50%;
-        }
+.switch-button {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    border: none;
+    background: transparent;
+    color: #00eaff;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-        .core::before {
-            width: 190px;
-            height: 190px;
-            animation: rotate 8s linear infinite;
-        }
+#authMessage {
+    min-height: 22px;
+    margin-top: 15px;
+    text-align: center;
+    color: #ff8585;
+}
 
-        .core::after {
-            width: 220px;
-            height: 220px;
-            border-style: dashed;
-            animation: rotateReverse 12s linear infinite;
-        }
+/* =========================
+   JARVIS
+========================= */
 
-        .core-inner {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #ffffff 0%, #00f6ff 15%, #008ea0 45%, transparent 72%);
-            box-shadow: 0 0 35px #00f6ff;
-        }
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                filter: brightness(1);
-            }
-            50% {
-                transform: scale(1.08);
-                filter: brightness(1.35);
-            }
-        }
+header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0,234,255,.25);
+    background: rgba(0,10,13,.75);
+}
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+.header-title {
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-shadow: 0 0 15px #00eaff;
+}
 
-        @keyframes rotateReverse {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        .chat {
-            flex: 1;
-            min-height: 0;
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
-            padding: 10px 20px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #00d9e8 transparent;
-        }
+#usernameDisplay {
+    color: #a9f9ff;
+}
 
-        .message {
-            display: flex;
-            margin: 10px 0;
-        }
+.logout-button {
+    padding: 8px 13px;
+    border: 1px solid #00eaff;
+    border-radius: 8px;
+    background: transparent;
+    color: #00eaff;
+    cursor: pointer;
+}
 
-        .message.user {
-            justify-content: flex-end;
-        }
+.logout-button:hover {
+    background: rgba(0,234,255,.12);
+}
 
-        .bubble {
-            max-width: 75%;
-            padding: 13px 17px;
-            border-radius: 15px;
-            line-height: 1.5;
-            font-size: 15px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+/* CORE */
 
-        .assistant .bubble {
-            background: rgba(0, 220, 240, 0.08);
-            border: 1px solid rgba(0, 246, 255, 0.35);
-            box-shadow: 0 0 15px rgba(0, 246, 255, 0.08);
-        }
+.core-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 35px 20px 15px;
+}
 
-        .user .bubble {
-            background: rgba(0, 246, 255, 0.16);
-            border: 1px solid rgba(0, 246, 255, 0.5);
-            color: white;
-        }
+.core {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #00eaff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow:
+        0 0 20px #00eaff,
+        0 0 60px rgba(0,234,255,.45),
+        inset 0 0 25px rgba(0,234,255,.5);
+    animation: pulse 2s infinite ease-in-out;
+}
 
-        .typing {
-            opacity: 0.7;
-            font-style: italic;
-        }
+.core::before,
+.core::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,234,255,.7);
+}
 
-        .controls {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 15px 20px 22px;
-        }
+.core::before {
+    width: 115px;
+    height: 115px;
+    animation: spin 5s linear infinite;
+}
 
-        .input-area {
-            display: flex;
-            gap: 10px;
-            background: rgba(0, 10, 15, 0.8);
-            border: 1px solid rgba(0, 246, 255, 0.35);
-            border-radius: 16px;
-            padding: 8px;
-            box-shadow: 0 0 20px rgba(0, 246, 255, 0.08);
-        }
+.core::after {
+    width: 80px;
+    height: 80px;
+    animation: spinReverse 3s linear infinite;
+}
 
-        #input {
-            flex: 1;
-            min-width: 0;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: white;
-            font-size: 16px;
-            padding: 12px;
-        }
+.core-center {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #00eaff;
+    box-shadow: 0 0 25px #00eaff;
+    z-index: 2;
+}
 
-        #input::placeholder {
-            color: rgba(150, 245, 255, 0.5);
-        }
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+}
 
-        button {
-            border: 1px solid rgba(0, 246, 255, 0.6);
-            background: rgba(0, 246, 255, 0.1);
-            color: #00f6ff;
-            border-radius: 12px;
-            padding: 10px 16px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 
-        button:hover {
-            background: rgba(0, 246, 255, 0.25);
-            box-shadow: 0 0 15px rgba(0, 246, 255, 0.35);
-        }
+@keyframes spinReverse {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
 
-        button:active {
-            transform: scale(0.96);
-        }
+/* CHAT */
 
-        #micButton {
-            font-size: 18px;
-            width: 50px;
-        }
+.chat {
+    width: min(900px, 94%);
+    margin: 0 auto;
+    flex: 1;
+    min-height: 280px;
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 10px 5px 20px;
+}
 
-        .quick-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            overflow-x: auto;
-        }
+.message {
+    margin: 10px 0;
+    padding: 13px 16px;
+    border-radius: 15px;
+    max-width: 80%;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
 
-        .quick-buttons button {
-            white-space: nowrap;
-            font-size: 12px;
-            padding: 8px 12px;
-        }
+.user-message {
+    margin-left: auto;
+    background: rgba(0,180,200,.16);
+    border: 1px solid rgba(0,234,255,.35);
+    color: white;
+}
 
-        .footer {
-            text-align: center;
-            font-size: 11px;
-            color: rgba(140, 240, 250, 0.45);
-            padding-bottom: 8px;
-        }
+.jarvis-message {
+    margin-right: auto;
+    background: rgba(0,30,35,.8);
+    border: 1px solid rgba(0,234,255,.3);
+    color: #b8fbff;
+}
 
-        @media (max-width: 700px) {
-            header {
-                height: 60px;
-                padding: 0 15px;
-            }
+.status {
+    width: min(900px, 94%);
+    margin: 0 auto;
+    padding: 5px;
+    color: #6ddde5;
+    font-size: 13px;
+}
 
-            .logo {
-                font-size: 21px;
-            }
+/* INPUT */
 
-            .core-area {
-                height: 220px;
-            }
+.input-area {
+    width: min(900px, 94%);
+    margin: 0 auto;
+    padding: 15px 0 25px;
+    display: flex;
+    gap: 8px;
+}
 
-            .core {
-                width: 110px;
-                height: 110px;
-            }
+#userInput {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #087985;
+    border-radius: 12px;
+    background: #031317;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
 
-            .core::before {
-                width: 145px;
-                height: 145px;
-            }
+#userInput:focus {
+    border-color: #00eaff;
+}
 
-            .core::after {
-                width: 170px;
-                height: 170px;
-            }
+.action-button {
+    min-width: 52px;
+    border: 1px solid #00eaff;
+    border-radius: 12px;
+    background: rgba(0,234,255,.08);
+    color: #00eaff;
+    cursor: pointer;
+    font-size: 20px;
+}
 
-            .core-inner {
-                width: 52px;
-                height: 52px;
-            }
+.action-button:hover {
+    background: rgba(0,234,255,.2);
+}
 
-            .bubble {
-                max-width: 88%;
-            }
+.send-button {
+    min-width: 90px;
+    font-size: 15px;
+    font-weight: bold;
+}
 
-            .input-area {
-                gap: 5px;
-            }
+/* QUICK COMMANDS */
 
-            button {
-                padding: 9px 11px;
-            }
-        }
-    </style>
+.quick {
+    width: min(900px, 94%);
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.quick button {
+    padding: 7px 10px;
+    border: 1px solid rgba(0,234,255,.3);
+    border-radius: 8px;
+    background: transparent;
+    color: #7cebf1;
+    cursor: pointer;
+}
+
+.quick button:hover {
+    background: rgba(0,234,255,.12);
+}
+</style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- =========================
+     AUTENTICAÇÃO
+========================= -->
 
-    <header>
+<div id="authScreen">
+
+    <div class="auth-box">
+
         <div class="logo">JARVIS</div>
 
-        <div class="status">
-            <span class="status-dot" id="statusDot"></span>
-            <span id="statusText">ONLINE</span>
+        <div class="subtitle" id="authTitle">
+            Criar a tua conta
         </div>
+
+        <input
+            id="username"
+            type="text"
+            placeholder="Nome de utilizador"
+            autocomplete="username"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Palavra-passe"
+            autocomplete="current-password"
+        >
+
+        <button
+            class="auth-button"
+            id="authButton"
+            onclick="autenticar()"
+        >
+            Criar conta
+        </button>
+
+        <button
+            class="switch-button"
+            id="switchButton"
+            onclick="trocarModo()"
+        >
+            Já tens uma conta? Entrar
+        </button>
+
+        <div id="authMessage"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     APLICAÇÃO
+========================= -->
+
+<div id="app" class="hidden">
+
+    <header>
+
+        <div class="header-title">
+            JARVIS
+        </div>
+
+        <div class="user-area">
+
+            <span id="usernameDisplay"></span>
+
+            <button
+                class="logout-button"
+                onclick="logout()"
+            >
+                Sair
+            </button>
+
+        </div>
+
     </header>
 
-    <main>
 
-        <div class="core-area">
-            <div class="core">
-                <div class="core-inner"></div>
-            </div>
+    <div class="core-area">
+
+        <div class="core">
+            <div class="core-center"></div>
         </div>
 
-        <div class="chat" id="chat">
+    </div>
 
-            <div class="message assistant">
-                <div class="bubble">
-                    Olá! Eu sou o JARVIS. 🤖
-                    
-                    Estou ligado ao sistema de IA.
-                    Podes escrever uma pergunta ou usar o microfone.
-                </div>
-            </div>
 
-        </div>
+    <div id="chat" class="chat"></div>
 
-        <div class="controls">
+    <div id="status" class="status">
+        JARVIS online
+    </div>
 
-            <div class="input-area">
 
-                <input
-                    id="input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Fala comigo..."
-                >
+    <div class="quick">
 
-                <button id="micButton" title="Falar">🎤</button>
+        <button onclick="comandoRapido('Que horas são?')">
+            🕐 Hora
+        </button>
 
-                <button id="sendButton">
-                    Enviar
-                </button>
+        <button onclick="comandoRapido('Que dia é hoje?')">
+            📅 Data
+        </button>
 
-            </div>
+        <button onclick="comandoRapido('Conta-me uma piada.')">
+            😄 Piada
+        </button>
 
-            <div class="quick-buttons">
+        <button onclick="comandoRapido('Ajuda')">
+            ❓ Ajuda
+        </button>
 
-                <button onclick="comandoRapido('Que horas são?')">
-                    🕐 Hora
-                </button>
+    </div>
 
-                <button onclick="comandoRapido('Que dia é hoje?')">
-                    📅 Data
-                </button>
 
-                <button onclick="comandoRapido('Conta-me uma piada')">
-                    😂 Piada
-                </button>
+    <div class="input-area">
 
-                <button onclick="comandoRapido('Quem és tu?')">
-                    🤖 Quem és?
-                </button>
+        <input
+            id="userInput"
+            type="text"
+            placeholder="Fala com o JARVIS..."
+        >
 
-                <button onclick="comandoRapido('Ajuda')">
-                    ❓ Ajuda
-                </button>
+        <button
+            class="action-button"
+            onclick="ouvir()"
+            title="Microfone"
+        >
+            🎤
+        </button>
 
-            </div>
+        <button
+            class="action-button send-button"
+            onclick="enviar()"
+        >
+            Enviar
+        </button>
 
-        </div>
-
-    </main>
-
-    <div class="footer">
-        JARVIS AI • GitHub Pages + Cloudflare Workers AI
     </div>
 
 </div>
@@ -424,323 +509,341 @@
 
 <script>
 
-    // =====================================================
-    // CONFIGURAÇÃO
-    // =====================================================
+const WORKER_URL =
+    "https://jarvis.2024guiteles.workers.dev";
 
-    const AI_URL =
-        "https://jarvis.2024guiteles.workers.dev/";
+let modoCadastro = true;
+let token = localStorage.getItem("jarvis_token");
+let historico = [];
 
-    const input =
-        document.getElementById("input");
+
+// =========================
+// AUTENTICAÇÃO
+// =========================
+
+function trocarModo() {
+
+    modoCadastro = !modoCadastro;
+
+    const title =
+        document.getElementById("authTitle");
+
+    const button =
+        document.getElementById("authButton");
+
+    const switchButton =
+        document.getElementById("switchButton");
+
+    document.getElementById("authMessage").textContent = "";
+
+    if (modoCadastro) {
+
+        title.textContent =
+            "Criar a tua conta";
+
+        button.textContent =
+            "Criar conta";
+
+        switchButton.textContent =
+            "Já tens uma conta? Entrar";
+
+    } else {
+
+        title.textContent =
+            "Entrar no JARVIS";
+
+        button.textContent =
+            "Entrar";
+
+        switchButton.textContent =
+            "Ainda não tens conta? Criar conta";
+    }
+}
+
+
+async function autenticar() {
+
+    const username =
+        document.getElementById("username")
+        .value.trim();
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    const message =
+        document.getElementById("authMessage");
+
+    if (!username || !password) {
+
+        message.textContent =
+            "Preenche todos os campos.";
+
+        return;
+    }
+
+    message.textContent =
+        "A processar...";
+
+    const rota =
+        modoCadastro
+            ? "/register"
+            : "/login";
+
+    try {
+
+        const response = await fetch(
+            WORKER_URL + rota,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            }
+        );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            message.textContent =
+                data.erro ||
+                "Ocorreu um erro.";
+
+            return;
+        }
+
+        if (modoCadastro) {
+
+            message.style.color =
+                "#71ff91";
+
+            message.textContent =
+                "Conta criada! A entrar...";
+
+            modoCadastro = false;
+
+            setTimeout(() => {
+                autenticar();
+            }, 500);
+
+            return;
+        }
+
+        token = data.token;
+
+        localStorage.setItem(
+            "jarvis_token",
+            token
+        );
+
+        mostrarAplicacao(
+            data.username
+        );
+
+    } catch (erro) {
+
+        message.textContent =
+            "Não foi possível contactar o servidor.";
+    }
+}
+
+
+// =========================
+// MOSTRAR JARVIS
+// =========================
+
+function mostrarAplicacao(username) {
+
+    document
+        .getElementById("authScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("usernameDisplay")
+        .textContent =
+            "Olá, " + username;
+
+    adicionarMensagem(
+        "jarvis",
+        "Olá, " + username +
+        "! Sou o JARVIS. Como posso ajudar?"
+    );
+}
+
+
+// =========================
+// LOGOUT
+// =========================
+
+async function logout() {
+
+    try {
+
+        await fetch(
+            WORKER_URL + "/logout",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    token: token
+                })
+            }
+        );
+
+    } catch (erro) {
+        // Mesmo que o pedido falhe,
+        // terminamos a sessão local.
+    }
+
+    localStorage.removeItem(
+        "jarvis_token"
+    );
+
+    token = null;
+
+    location.reload();
+}
+
+
+// =========================
+// MENSAGENS
+// =========================
+
+function adicionarMensagem(tipo, texto) {
 
     const chat =
         document.getElementById("chat");
 
-    const sendButton =
-        document.getElementById("sendButton");
+    const div =
+        document.createElement("div");
 
-    const micButton =
-        document.getElementById("micButton");
+    div.className =
+        "message " +
+        (tipo === "user"
+            ? "user-message"
+            : "jarvis-message");
 
-    const statusText =
-        document.getElementById("statusText");
+    div.textContent = texto;
 
-    const statusDot =
-        document.getElementById("statusDot");
+    chat.appendChild(div);
 
-
-    // =====================================================
-    // HISTÓRICO DA CONVERSA
-    // =====================================================
-
-    let historico = [];
+    chat.scrollTop =
+        chat.scrollHeight;
+}
 
 
-    // =====================================================
-    // MOSTRAR MENSAGEM
-    // =====================================================
+// =========================
+// FALAR
+// =========================
 
-    function mostrarMensagem(texto, tipo) {
+function falar(texto) {
 
-        const message =
-            document.createElement("div");
+    if (!("speechSynthesis" in window))
+        return;
 
-        message.className =
-            "message " + tipo;
+    window.speechSynthesis.cancel();
 
-        const bubble =
-            document.createElement("div");
+    const voz =
+        new SpeechSynthesisUtterance(texto);
 
-        bubble.className =
-            "bubble";
+    voz.lang = "pt-PT";
+    voz.rate = 1;
+    voz.pitch = 1;
 
-        bubble.textContent =
-            texto;
+    window.speechSynthesis.speak(voz);
+}
 
-        message.appendChild(bubble);
 
-        chat.appendChild(message);
+// =========================
+// STATUS
+// =========================
 
-        chat.scrollTop =
-            chat.scrollHeight;
+function status(texto) {
+
+    document
+        .getElementById("status")
+        .textContent = texto;
+}
+
+
+// =========================
+// ENVIAR
+// =========================
+
+async function enviar() {
+
+    const input =
+        document.getElementById("userInput");
+
+    const texto =
+        input.value.trim();
+
+    if (!texto)
+        return;
+
+    if (!token) {
+
+        alert(
+            "Tens de iniciar sessão primeiro."
+        );
+
+        return;
     }
 
+    adicionarMensagem(
+        "user",
+        texto
+    );
 
-    // =====================================================
-    // JARVIS A FALAR
-    // =====================================================
+    input.value = "";
 
-    function falar(texto) {
+    const respostaLocal =
+        comandoLocal(texto);
 
-        if (!("speechSynthesis" in window)) {
-            return;
-        }
+    if (respostaLocal !== null) {
 
-        speechSynthesis.cancel();
+        adicionarMensagem(
+            "jarvis",
+            respostaLocal
+        );
 
-        const voz =
-            new SpeechSynthesisUtterance(texto);
+        falar(respostaLocal);
 
-        voz.lang = "pt-PT";
-
-        voz.rate = 1;
-        voz.pitch = 1;
-
-        speechSynthesis.speak(voz);
+        return;
     }
 
+    historico.push({
+        role: "user",
+        content: texto
+    });
 
-    // =====================================================
-    // ESTADO
-    // =====================================================
+    status(
+        "JARVIS está a pensar..."
+    );
 
-    function estadoPensando() {
+    try {
 
-        statusText.textContent =
-            "A PENSAR...";
-
-        statusDot.style.background =
-            "#ffff00";
-
-        statusDot.style.boxShadow =
-            "0 0 12px #ffff00";
-    }
-
-
-    function estadoOnline() {
-
-        statusText.textContent =
-            "ONLINE";
-
-        statusDot.style.background =
-            "#00ff88";
-
-        statusDot.style.boxShadow =
-            "0 0 12px #00ff88";
-    }
-
-
-    function estadoErro() {
-
-        statusText.textContent =
-            "ERRO";
-
-        statusDot.style.background =
-            "#ff3333";
-
-        statusDot.style.boxShadow =
-            "0 0 12px #ff3333";
-    }
-
-
-    // =====================================================
-    // COMANDOS LOCAIS
-    // =====================================================
-
-    function comandoLocal(pergunta) {
-
-        const texto =
-            pergunta.toLowerCase().trim();
-
-
-        // HORA
-
-        if (
-            texto.includes("que horas") ||
-            texto === "hora" ||
-            texto.includes("horas são")
-        ) {
-
-            const agora =
-                new Date();
-
-            return "São " +
-                agora.toLocaleTimeString(
-                    "pt-PT",
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    }
-                ) + ".";
-        }
-
-
-        // DATA
-
-        if (
-            texto.includes("que dia") ||
-            texto.includes("data de hoje") ||
-            texto === "data"
-        ) {
-
-            const hoje =
-                new Date();
-
-            return "Hoje é " +
-                hoje.toLocaleDateString(
-                    "pt-PT",
-                    {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                    }
-                ) + ".";
-        }
-
-
-        // QUEM É
-
-        if (
-            texto.includes("quem és") ||
-            texto.includes("quem e") ||
-            texto.includes("o que és")
-        ) {
-
-            return "Eu sou o JARVIS, o teu assistente virtual de inteligência artificial.";
-        }
-
-
-        // OLÁ
-
-        if (
-            texto === "olá" ||
-            texto === "ola" ||
-            texto.includes("bom dia") ||
-            texto.includes("boa tarde") ||
-            texto.includes("boa noite")
-        ) {
-
-            return "Olá! É bom falar contigo. Como posso ajudar?";
-        }
-
-
-        // PIADA
-
-        if (
-            texto.includes("piada") ||
-            texto.includes("faz-me rir")
-        ) {
-
-            const piadas = [
-
-                "Porque é que o computador foi ao médico? Porque tinha um vírus! 😂",
-
-                "O que diz um computador quando está com frio? Fecha as Windows! 😂",
-
-                "Porque é que o programador confundiu Halloween com Natal? Porque OCT 31 = DEC 25. 😂"
-
-            ];
-
-            return piadas[
-                Math.floor(
-                    Math.random() * piadas.length
-                )
-            ];
-        }
-
-
-        // AJUDA
-
-        if (
-            texto === "ajuda" ||
-            texto.includes("o que podes fazer")
-        ) {
-
-            return "Posso conversar contigo, responder a perguntas, ajudar com programação, jogos, tecnologia, explicar assuntos e muito mais.";
-        }
-
-
-        // GOOGLE
-
-        if (
-            texto.startsWith("pesquisa ")
-        ) {
-
-            const pesquisa =
-                pergunta.substring(9).trim();
-
-            if (pesquisa) {
-
-                window.open(
-                    "https://www.google.com/search?q=" +
-                    encodeURIComponent(pesquisa),
-                    "_blank"
-                );
-
-                return "Abri uma pesquisa no Google sobre " +
-                    pesquisa + ".";
-            }
-        }
-
-
-        // YOUTUBE
-
-        if (
-            texto.startsWith("youtube ")
-        ) {
-
-            const pesquisa =
-                pergunta.substring(8).trim();
-
-            if (pesquisa) {
-
-                window.open(
-                    "https://www.youtube.com/results?search_query=" +
-                    encodeURIComponent(pesquisa),
-                    "_blank"
-                );
-
-                return "Abri o YouTube e procurei por " +
-                    pesquisa + ".";
-            }
-        }
-
-
-        return null;
-    }
-
-
-    // =====================================================
-    // PERGUNTAR À IA
-    // =====================================================
-
-    async function perguntarIA(pergunta) {
-
-        const mensagens =
-            [
-                ...historico,
-                {
-                    role: "user",
-                    content: pergunta
-                }
-            ];
-
-
-        const resposta =
+        const response =
             await fetch(
-                AI_URL,
+                WORKER_URL + "/chat",
                 {
                     method: "POST",
 
@@ -750,378 +853,313 @@
                     },
 
                     body: JSON.stringify({
-                        messages: mensagens
+                        token: token,
+                        messages: historico
                     })
                 }
             );
 
+        const data =
+            await response.json();
 
-        if (!resposta.ok) {
+        if (!response.ok) {
 
-            let erroTexto =
-                "Erro HTTP " +
-                resposta.status;
+            if (response.status === 401) {
 
-            try {
+                localStorage.removeItem(
+                    "jarvis_token"
+                );
 
-                const erro =
-                    await resposta.json();
+                alert(
+                    "A tua sessão expirou. Faz login novamente."
+                );
 
-                if (erro.erro) {
-                    erroTexto +=
-                        ": " + erro.erro;
-                }
+                location.reload();
 
-                if (erro.detalhe) {
-                    erroTexto +=
-                        " - " + erro.detalhe;
-                }
-
-            } catch (e) {}
+                return;
+            }
 
             throw new Error(
-                erroTexto
+                data.erro ||
+                "Erro desconhecido"
             );
         }
 
+        const resposta =
+            data.resposta ||
+            "Não recebi uma resposta.";
 
-        const dados =
-            await resposta.json();
+        historico.push({
+            role: "assistant",
+            content: resposta
+        });
 
-
-        if (!dados.resposta) {
-
-            throw new Error(
-                "O Worker não devolveu uma resposta."
-            );
-        }
-
-
-        return dados.resposta;
-    }
-
-
-    // =====================================================
-    // PROCESSAR PERGUNTA
-    // =====================================================
-
-    async function processarComando(pergunta) {
-
-        pergunta =
-            pergunta.trim();
-
-        if (!pergunta) {
-            return;
-        }
-
-
-        mostrarMensagem(
-            pergunta,
-            "user"
+        adicionarMensagem(
+            "jarvis",
+            resposta
         );
 
+        falar(resposta);
 
-        input.value = "";
+        status(
+            "JARVIS online"
+        );
 
-        estadoPensando();
+    } catch (erro) {
 
+        console.error(erro);
 
-        // Primeiro verifica comandos locais
+        adicionarMensagem(
+            "jarvis",
+            "Não consegui contactar a IA. " +
+            "Verifica o Worker e o Workers AI."
+        );
 
-        const local =
-            comandoLocal(pergunta);
-
-
-        if (local !== null) {
-
-            historico.push(
-                {
-                    role: "user",
-                    content: pergunta
-                }
-            );
-
-            historico.push(
-                {
-                    role: "assistant",
-                    content: local
-                }
-            );
-
-            mostrarMensagem(
-                local,
-                "assistant"
-            );
-
-            falar(local);
-
-            estadoOnline();
-
-            return;
-        }
+        status(
+            "Erro de ligação"
+        );
+    }
+}
 
 
-        // Indicador temporário
+// =========================
+// COMANDOS LOCAIS
+// =========================
 
-        const thinking =
-            document.createElement("div");
+function comandoLocal(texto) {
 
-        thinking.className =
-            "message assistant";
+    const t =
+        texto.toLowerCase();
 
-        thinking.id =
-            "thinking";
+    if (
+        t.includes("olá") ||
+        t.includes("ola") ||
+        t.includes("bom dia") ||
+        t.includes("boa tarde") ||
+        t.includes("boa noite")
+    ) {
 
-        thinking.innerHTML =
-            '<div class="bubble typing">JARVIS está a pensar...</div>';
-
-        chat.appendChild(thinking);
-
-        chat.scrollTop =
-            chat.scrollHeight;
-
-
-        try {
-
-            const resposta =
-                await perguntarIA(
-                    pergunta
-                );
-
-
-            const elemento =
-                document.getElementById(
-                    "thinking"
-                );
-
-            if (elemento) {
-                elemento.remove();
-            }
-
-
-            historico.push(
-                {
-                    role: "user",
-                    content: pergunta
-                }
-            );
-
-            historico.push(
-                {
-                    role: "assistant",
-                    content: resposta
-                }
-            );
-
-
-            mostrarMensagem(
-                resposta,
-                "assistant"
-            );
-
-            falar(resposta);
-
-            estadoOnline();
-
-        } catch (erro) {
-
-            const elemento =
-                document.getElementById(
-                    "thinking"
-                );
-
-            if (elemento) {
-                elemento.remove();
-            }
-
-
-            console.error(
-                "Erro JARVIS:",
-                erro
-            );
-
-
-            const mensagem =
-                "Não consegui contactar a IA. " +
-                "Verifica se o Worker está publicado e se o Workers AI está configurado.";
-
-
-            mostrarMensagem(
-                mensagem,
-                "assistant"
-            );
-
-            estadoErro();
-
-        }
-
+        return "Olá! Estou pronto para ajudar.";
     }
 
+    if (
+        t.includes("que horas") ||
+        t === "hora"
+    ) {
 
-    // =====================================================
-    // BOTÃO ENVIAR
-    // =====================================================
+        return "São " +
+            new Date().toLocaleTimeString(
+                "pt-PT",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            ) + ".";
+    }
 
-    sendButton.addEventListener(
-        "click",
-        function () {
+    if (
+        t.includes("que dia") ||
+        t.includes("data de hoje")
+    ) {
 
-            processarComando(
-                input.value
-            );
+        return "Hoje é " +
+            new Date().toLocaleDateString(
+                "pt-PT",
+                {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            ) + ".";
+    }
 
-        }
-    );
+    if (t.includes("piada")) {
+
+        const piadas = [
+            "Porque é que o computador foi ao médico? Porque tinha um vírus!",
+            "O que diz um programador quando está com fome? Preciso de mais bytes!",
+            "Porque é que o computador estava frio? Porque deixou o Windows aberto!"
+        ];
+
+        return piadas[
+            Math.floor(
+                Math.random() *
+                piadas.length
+            )
+        ];
+    }
+
+    if (
+        t === "ajuda" ||
+        t.includes("o que podes fazer")
+    ) {
+
+        return "Posso conversar contigo, responder a perguntas, dizer a hora e a data, contar piadas e muito mais.";
+    }
+
+    return null;
+}
 
 
-    // =====================================================
-    // ENTER
-    // =====================================================
+// =========================
+// COMANDO RÁPIDO
+// =========================
 
-    input.addEventListener(
+function comandoRapido(texto) {
+
+    document
+        .getElementById("userInput")
+        .value = texto;
+
+    enviar();
+}
+
+
+// =========================
+// ENTER
+// =========================
+
+document
+    .getElementById("userInput")
+    .addEventListener(
         "keydown",
-        function (event) {
+        function(event) {
 
-            if (
-                event.key === "Enter"
-            ) {
-
-                event.preventDefault();
-
-                processarComando(
-                    input.value
-                );
+            if (event.key === "Enter") {
+                enviar();
             }
-
         }
     );
 
 
-    // =====================================================
-    // BOTÕES RÁPIDOS
-    // =====================================================
+// =========================
+// MICROFONE
+// =========================
 
-    function comandoRapido(texto) {
-
-        processarComando(
-            texto
-        );
-
-    }
-
-
-    // =====================================================
-    // RECONHECIMENTO DE VOZ
-    // =====================================================
+function ouvir() {
 
     const SpeechRecognition =
         window.SpeechRecognition ||
         window.webkitSpeechRecognition;
 
+    if (!SpeechRecognition) {
 
-    if (SpeechRecognition) {
-
-        const recognition =
-            new SpeechRecognition();
-
-        recognition.lang =
-            "pt-PT";
-
-        recognition.continuous =
-            false;
-
-        recognition.interimResults =
-            false;
-
-
-        micButton.addEventListener(
-            "click",
-            function () {
-
-                try {
-
-                    recognition.start();
-
-                    micButton.textContent =
-                        "🔴";
-
-                    statusText.textContent =
-                        "A OUVIR...";
-
-                } catch (erro) {
-
-                    console.log(
-                        erro
-                    );
-
-                }
-
-            }
+        alert(
+            "O teu navegador não suporta reconhecimento de voz."
         );
 
-
-        recognition.onresult =
-            function (event) {
-
-                const texto =
-                    event.results[0][0].transcript;
-
-                input.value =
-                    texto;
-
-                processarComando(
-                    texto
-                );
-
-            };
-
-
-        recognition.onend =
-            function () {
-
-                micButton.textContent =
-                    "🎤";
-
-                estadoOnline();
-
-            };
-
-
-        recognition.onerror =
-            function () {
-
-                micButton.textContent =
-                    "🎤";
-
-                estadoOnline();
-
-            };
-
-    } else {
-
-        micButton.disabled =
-            true;
-
-        micButton.title =
-            "O reconhecimento de voz não é suportado neste navegador.";
-
+        return;
     }
 
+    const recognition =
+        new SpeechRecognition();
 
-    // =====================================================
-    // TESTE INICIAL
-    // =====================================================
+    recognition.lang = "pt-PT";
+    recognition.interimResults = false;
+    recognition.continuous = false;
 
-    console.log(
-        "JARVIS iniciado."
+    status(
+        "A ouvir..."
     );
 
-    console.log(
-        "Worker:",
-        AI_URL
-    );
+    recognition.start();
+
+    recognition.onresult =
+        function(event) {
+
+            const texto =
+                event.results[0][0].transcript;
+
+            document
+                .getElementById("userInput")
+                .value = texto;
+
+            enviar();
+        };
+
+    recognition.onerror =
+        function() {
+
+            status(
+                "Não consegui ouvir."
+            );
+        };
+
+    recognition.onend =
+        function() {
+
+            setTimeout(() => {
+                status("JARVIS online");
+            }, 1000);
+        };
+}
+
+
+// =========================
+// VERIFICAR SESSÃO
+// =========================
+
+async function verificarSessao() {
+
+    if (!token)
+        return;
+
+    try {
+
+        const response =
+            await fetch(
+                WORKER_URL + "/me",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        token: token
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            response.ok &&
+            data.autenticado
+        ) {
+
+            mostrarAplicacao(
+                data.username
+            );
+
+        } else {
+
+            localStorage.removeItem(
+                "jarvis_token"
+            );
+
+            token = null;
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao verificar sessão:",
+            erro
+        );
+    }
+}
+
+
+// Iniciar
+verificarSessao();
 
 </script>
 
 </body>
 </html>
+```
