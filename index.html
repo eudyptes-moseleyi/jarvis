@@ -11,112 +11,176 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #050505, #101820);
-    color: white;
-    height: 100vh;
-    overflow: hidden;
+:root {
+    --cyan: #00d9ff;
+    --cyan2: #008cff;
+    --dark: #02070b;
+    --panel: rgba(5, 16, 24, 0.88);
 }
 
-/* =========================
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #02070b;
+    color: white;
+}
+
+/* =====================================================
+   FUNDO FUTURISTA
+===================================================== */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0,217,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,217,255,0.035) 1px, transparent 1px);
+    background-size: 45px 45px;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at center, rgba(0,180,255,0.12), transparent 35%),
+        linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.7));
+    pointer-events: none;
+}
+
+/* =====================================================
    LOGIN
-========================= */
+===================================================== */
 
 #authScreen {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 5;
 }
 
 .auth-box {
     width: 90%;
-    max-width: 400px;
-    background: rgba(15, 20, 25, 0.95);
-    border: 1px solid #00c8ff;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
+    max-width: 420px;
+    padding: 35px;
+    background: rgba(3, 12, 18, 0.94);
+    border: 1px solid var(--cyan);
+    box-shadow:
+        0 0 15px rgba(0,217,255,0.35),
+        inset 0 0 30px rgba(0,150,255,0.05);
+    clip-path: polygon(
+        0 18px,
+        18px 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% calc(100% - 18px),
+        calc(100% - 18px) 100%,
+        18px 100%,
+        0 calc(100% - 18px)
+    );
 }
 
 .logo {
     text-align: center;
-    color: #00c8ff;
-    font-size: 42px;
+    color: var(--cyan);
+    font-size: 48px;
     font-weight: bold;
-    margin-bottom: 5px;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px var(--cyan);
 }
 
 .subtitle {
     text-align: center;
-    color: #888;
-    margin-bottom: 25px;
+    color: #718894;
+    margin: 8px 0 30px;
 }
 
 .auth-box input {
     width: 100%;
-    padding: 13px;
+    padding: 14px;
     margin-bottom: 12px;
-    border-radius: 8px;
-    border: 1px solid #344;
-    background: #080c10;
+    border: 1px solid #194454;
+    background: #02080c;
     color: white;
-    font-size: 16px;
+    outline: none;
+    font-size: 15px;
+}
+
+.auth-box input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0,217,255,0.2);
 }
 
 .auth-box button {
     width: 100%;
-    padding: 13px;
-    border: 0;
-    border-radius: 8px;
-    background: #00aeea;
-    color: white;
+    padding: 14px;
+    margin-top: 7px;
+    border: 1px solid var(--cyan);
+    background: rgba(0,150,220,0.15);
+    color: var(--cyan);
     font-weight: bold;
     cursor: pointer;
-    margin-top: 5px;
 }
 
 .auth-box button:hover {
-    background: #008ec0;
+    background: rgba(0,217,255,0.25);
+    box-shadow: 0 0 15px rgba(0,217,255,0.25);
 }
 
 #switchButton {
-    background: #252d35;
+    border-color: #34505c;
+    color: #829aa5;
+    background: rgba(20,30,35,0.7);
 }
 
 #errorMessage {
-    color: #ff5555;
+    color: #ff5964;
     text-align: center;
     margin-top: 15px;
 }
 
-/* =========================
+/* =====================================================
    APP
-========================= */
+===================================================== */
 
 #appScreen {
     display: none;
     height: 100vh;
+    position: relative;
+    z-index: 2;
 }
+
+/* =====================================================
+   TOPBAR
+===================================================== */
 
 .topbar {
     height: 65px;
-    background: #080d12;
-    border-bottom: 1px solid #24313a;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 20px;
 
-    padding: 0 15px;
+    background: rgba(2,9,14,0.88);
+    border-bottom: 1px solid #123d4b;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
 }
 
 .topbar-title {
-    color: #00c8ff;
+    color: var(--cyan);
     font-size: 24px;
     font-weight: bold;
+    letter-spacing: 5px;
+    text-shadow: 0 0 12px var(--cyan);
 }
 
 .topbar-right {
@@ -126,139 +190,285 @@ body {
 }
 
 #loggedUsername {
-    color: #888;
-    margin-right: 5px;
+    color: #66808c;
 }
 
 .topbar button {
-    border: none;
-    border-radius: 7px;
+    border: 1px solid #1c4655;
+    background: rgba(10,25,33,0.9);
+    color: #a9dce9;
     padding: 9px 12px;
-    color: white;
-    background: #26333d;
     cursor: pointer;
 }
 
 .topbar button:hover {
-    background: #34444f;
+    border-color: var(--cyan);
+    color: white;
+    box-shadow: 0 0 10px rgba(0,217,255,0.15);
 }
 
 #logoutButton {
-    background: #7d2630;
+    border-color: #662d35;
+    color: #ff7180;
 }
 
-#logoutButton:hover {
-    background: #a32d39;
-}
-
-/* =========================
-   CHAT
-========================= */
+/* =====================================================
+   MAIN
+===================================================== */
 
 .chat {
     height: calc(100vh - 65px);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
+
+/* =====================================================
+   NÚCLEO JARVIS
+===================================================== */
+
+.jarvis-core {
+    height: 230px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.core {
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    position: relative;
+
+    border: 2px solid var(--cyan);
+
+    box-shadow:
+        0 0 10px var(--cyan),
+        0 0 35px rgba(0,217,255,0.7),
+        inset 0 0 25px rgba(0,217,255,0.4);
+
+    animation: corePulse 2.5s infinite;
+}
+
+.core::before {
+    content: "";
+    position: absolute;
+    inset: 13px;
+    border-radius: 50%;
+    border: 2px dashed var(--cyan);
+    animation: rotate 5s linear infinite;
+}
+
+.core::after {
+    content: "";
+    position: absolute;
+    inset: 28px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow:
+        0 0 15px var(--cyan),
+        0 0 35px var(--cyan),
+        0 0 65px var(--cyan);
+}
+
+.core-ring {
+    position: absolute;
+    width: 155px;
+    height: 155px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,217,255,0.4);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    animation: rotateReverse 8s linear infinite;
+}
+
+.core-ring2 {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,217,255,0.2);
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: rotate 12s linear infinite;
+}
+
+.core-status {
+    position: absolute;
+    top: calc(50% + 90px);
+    color: var(--cyan);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px var(--cyan);
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateReverse {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes corePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow:
+            0 0 10px var(--cyan),
+            0 0 35px rgba(0,217,255,0.5);
+    }
+
+    50% {
+        transform: scale(1.08);
+        box-shadow:
+            0 0 20px var(--cyan),
+            0 0 60px rgba(0,217,255,0.8);
+    }
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-line {
+    text-align: center;
+    height: 25px;
+    color: #55717d;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.status-line.active {
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan);
+}
+
+/* =====================================================
+   MENSAGENS
+===================================================== */
 
 #messages {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 10px 20px 20px;
+    scroll-behavior: smooth;
+}
+
+#messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+    background: #145166;
 }
 
 .message {
     max-width: 800px;
-    margin: 0 auto 15px auto;
+    margin: 0 auto 12px;
     padding: 13px 16px;
-    border-radius: 12px;
-    white-space: pre-wrap;
     line-height: 1.5;
+    white-space: pre-wrap;
+
+    border-left: 2px solid var(--cyan);
+    background: rgba(5,16,23,0.82);
+
+    animation: messageIn 0.25s ease;
 }
 
 .user {
-    background: #12384d;
-    margin-right: 0;
-}
-
-.jarvis {
-    background: #151c22;
-    border: 1px solid #26343d;
-    margin-left: 0;
+    border-left-color: #596d77;
+    background: rgba(20,30,36,0.8);
 }
 
 .message-name {
-    color: #00c8ff;
-    font-size: 12px;
-    font-weight: bold;
+    color: var(--cyan);
+    font-size: 11px;
+    letter-spacing: 2px;
     margin-bottom: 5px;
 }
 
-/* =========================
+.user .message-name {
+    color: #80939c;
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
    INPUT
-========================= */
+===================================================== */
 
 .input-area {
-    background: #080d12;
-    border-top: 1px solid #24313a;
     padding: 12px;
+    background: rgba(2,9,14,0.94);
+    border-top: 1px solid #123d4b;
 }
 
 .input-container {
     max-width: 900px;
     margin: auto;
-
     display: flex;
     gap: 7px;
 }
 
 #messageInput {
     flex: 1;
-    margin: 0;
-    padding: 13px;
-
-    border: 1px solid #34434d;
-    border-radius: 8px;
-
-    background: #10161b;
+    padding: 14px;
+    background: #030b10;
     color: white;
-
+    border: 1px solid #194454;
     outline: none;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 #messageInput:focus {
-    border-color: #00c8ff;
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px rgba(0,217,255,0.12);
 }
 
 .input-container button {
-    border: none;
-    border-radius: 8px;
-    padding: 10px 15px;
-
-    background: #00aeea;
-    color: white;
-
+    border: 1px solid var(--cyan);
+    background: rgba(0,150,220,0.18);
+    color: var(--cyan);
+    padding: 10px 16px;
     cursor: pointer;
     font-weight: bold;
 }
 
-#micButton {
-    background: #26333d;
+.input-container button:hover {
+    background: rgba(0,217,255,0.25);
 }
 
-/* =========================
-   PAINEL DE MEMÓRIA
-========================= */
+#micButton.listening {
+    color: white;
+    background: rgba(0,217,255,0.35);
+    box-shadow: 0 0 20px rgba(0,217,255,0.4);
+}
+
+/* =====================================================
+   MEMÓRIA
+===================================================== */
 
 #memoryOverlay {
     display: none;
-
     position: fixed;
     inset: 0;
-
-    background: rgba(0,0,0,0.55);
-
+    background: rgba(0,0,0,0.7);
     z-index: 50;
 }
 
@@ -268,18 +478,15 @@ body {
 
 #memoryPanel {
     position: fixed;
-
     top: 0;
-    right: -390px;
+    right: -400px;
 
-    width: 370px;
+    width: 380px;
     max-width: 90%;
-
     height: 100vh;
 
-    background: #0b1116;
-
-    border-left: 1px solid #00c8ff;
+    background: rgba(3,12,18,0.98);
+    border-left: 1px solid var(--cyan);
 
     z-index: 100;
 
@@ -287,6 +494,8 @@ body {
 
     display: flex;
     flex-direction: column;
+
+    box-shadow: -10px 0 35px rgba(0,217,255,0.12);
 }
 
 #memoryPanel.show {
@@ -295,42 +504,32 @@ body {
 
 .memory-header {
     height: 65px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 15px;
-
-    border-bottom: 1px solid #26343d;
+    border-bottom: 1px solid #164353;
 }
 
 .memory-header h2 {
     margin: 0;
-    color: #00c8ff;
-    font-size: 21px;
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan);
 }
 
 .memory-header button {
-    border: none;
-    border-radius: 7px;
-
-    background: #26333d;
+    border: 1px solid #31505b;
+    background: #09161d;
     color: white;
-
     padding: 8px 12px;
-
     cursor: pointer;
 }
 
 .memory-description {
     padding: 15px;
-
-    color: #888;
-
+    color: #718894;
     font-size: 13px;
-
-    border-bottom: 1px solid #202a31;
+    border-bottom: 1px solid #152d37;
 }
 
 #memoryList {
@@ -340,56 +539,50 @@ body {
 }
 
 .memory {
-    background: #151d23;
-
-    border: 1px solid #26343d;
-
-    border-radius: 9px;
-
     padding: 12px;
-
     margin-bottom: 10px;
+    background: rgba(10,25,33,0.8);
+    border: 1px solid #1b4351;
 }
 
 .memory-text {
-    color: white;
     line-height: 1.4;
 }
 
 .memory-date {
-    color: #65727c;
+    color: #58717c;
     font-size: 11px;
     margin-top: 7px;
 }
 
 .memory-delete {
     margin-top: 9px;
-
-    border: none;
-    border-radius: 6px;
-
+    border: 1px solid #652c35;
+    background: #30171b;
+    color: #ff7b86;
     padding: 6px 9px;
-
-    background: #7d2630;
-    color: white;
-
     cursor: pointer;
 }
 
 .no-memory {
     text-align: center;
-    color: #65727c;
+    color: #58717c;
     padding: 30px 10px;
 }
 
-/* =========================
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media (max-width: 600px) {
 
+    .topbar {
+        padding: 0 10px;
+    }
+
     .topbar-title {
-        font-size: 20px;
+        font-size: 19px;
+        letter-spacing: 3px;
     }
 
     #loggedUsername {
@@ -398,23 +591,47 @@ body {
 
     .topbar button {
         padding: 8px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
-    #memoryPanel {
-        width: 340px;
+    .jarvis-core {
+        height: 190px;
+    }
+
+    .core {
+        width: 80px;
+        height: 80px;
+    }
+
+    .core-ring {
+        width: 120px;
+        height: 120px;
+    }
+
+    .core-ring2 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .core-status {
+        top: calc(50% + 72px);
+        font-size: 9px;
+    }
+
+    #messages {
+        padding: 5px 10px 15px;
     }
 
     .message {
         font-size: 14px;
     }
 
-    .input-container {
-        gap: 5px;
-    }
-
     .input-container button {
         padding: 10px;
+    }
+
+    #memoryPanel {
+        width: 340px;
     }
 }
 </style>
@@ -422,22 +639,17 @@ body {
 
 <body>
 
-<!-- =========================
+<!-- =====================================================
      LOGIN
-========================= -->
+===================================================== -->
 
 <div id="authScreen">
 
     <div class="auth-box">
 
-        <div class="logo">
-            JARVIS
-        </div>
+        <div class="logo">JARVIS</div>
 
-        <div
-            class="subtitle"
-            id="authSubtitle"
-        >
+        <div class="subtitle" id="authSubtitle">
             Entra na tua conta
         </div>
 
@@ -453,17 +665,11 @@ body {
             placeholder="Palavra-passe"
         >
 
-        <button
-            id="authButton"
-            onclick="authAction()"
-        >
+        <button id="authButton" onclick="authAction()">
             Entrar
         </button>
 
-        <button
-            id="switchButton"
-            onclick="switchAuthMode()"
-        >
+        <button id="switchButton" onclick="switchAuthMode()">
             Criar conta
         </button>
 
@@ -474,9 +680,9 @@ body {
 </div>
 
 
-<!-- =========================
-     JARVIS
-========================= -->
+<!-- =====================================================
+     APP
+===================================================== -->
 
 <div id="appScreen">
 
@@ -490,16 +696,11 @@ body {
 
             <span id="loggedUsername"></span>
 
-            <button
-                onclick="openMemoryPanel()"
-            >
+            <button onclick="openMemoryPanel()">
                 🧠 Memória
             </button>
 
-            <button
-                id="logoutButton"
-                onclick="logout()"
-            >
+            <button id="logoutButton" onclick="logout()">
                 Sair
             </button>
 
@@ -510,6 +711,27 @@ body {
 
     <div class="chat">
 
+        <!-- NÚCLEO -->
+
+        <div class="jarvis-core">
+
+            <div class="core-ring"></div>
+            <div class="core-ring2"></div>
+            <div class="core"></div>
+
+            <div id="coreStatus" class="core-status">
+                JARVIS ONLINE
+            </div>
+
+        </div>
+
+        <div id="statusLine" class="status-line">
+            SISTEMA OPERACIONAL
+        </div>
+
+
+        <!-- MENSAGENS -->
+
         <div id="messages">
 
             <div class="message jarvis">
@@ -518,12 +740,15 @@ body {
                     JARVIS
                 </div>
 
-                Olá! Sou o JARVIS. Como posso ajudar?
+                Olá. Sou o JARVIS. Sistemas online.
+                Como posso ajudar?
 
             </div>
 
         </div>
 
+
+        <!-- INPUT -->
 
         <div class="input-area">
 
@@ -532,6 +757,7 @@ body {
                 <button
                     id="micButton"
                     onclick="startVoice()"
+                    title="Falar com JARVIS"
                 >
                     🎤
                 </button>
@@ -539,14 +765,12 @@ body {
                 <input
                     id="messageInput"
                     type="text"
-                    placeholder="Escreve uma mensagem..."
+                    placeholder="Fala com o JARVIS..."
                     onkeydown="handleEnter(event)"
                 >
 
-                <button
-                    onclick="sendMessage()"
-                >
-                    Enviar
+                <button onclick="sendMessage()">
+                    ENVIAR
                 </button>
 
             </div>
@@ -558,37 +782,30 @@ body {
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      MEMÓRIA
-========================= -->
+===================================================== -->
 
 <div
     id="memoryOverlay"
     onclick="closeMemoryPanel()"
 ></div>
 
-
 <div id="memoryPanel">
 
     <div class="memory-header">
 
-        <h2>
-            🧠 Memória
-        </h2>
+        <h2>🧠 Memória</h2>
 
-        <button
-            onclick="closeMemoryPanel()"
-        >
+        <button onclick="closeMemoryPanel()">
             ✕
         </button>
 
     </div>
 
     <div class="memory-description">
-
         O JARVIS guarda automaticamente informações
         importantes que aprende durante as conversas.
-
     </div>
 
     <div id="memoryList">
@@ -604,9 +821,9 @@ body {
 
 <script>
 
-/* =========================
+/* =====================================================
    CONFIGURAÇÃO
-========================= */
+===================================================== */
 
 const WORKER_URL =
     "https://jarvis.2024guiteles.workers.dev";
@@ -621,9 +838,9 @@ let authMode = "login";
 let conversation = [];
 
 
-/* =========================
+/* =====================================================
    ELEMENTOS
-========================= */
+===================================================== */
 
 const authScreen =
     document.getElementById("authScreen");
@@ -667,10 +884,36 @@ const memoryOverlay =
 const memoryList =
     document.getElementById("memoryList");
 
+const coreStatus =
+    document.getElementById("coreStatus");
 
-/* =========================
+const statusLine =
+    document.getElementById("statusLine");
+
+const micButton =
+    document.getElementById("micButton");
+
+
+/* =====================================================
+   ESTADO DO JARVIS
+===================================================== */
+
+function setStatus(text) {
+
+    coreStatus.textContent = text;
+    statusLine.textContent = text;
+
+    statusLine.classList.add("active");
+
+    setTimeout(() => {
+        statusLine.classList.remove("active");
+    }, 1200);
+}
+
+
+/* =====================================================
    LOGIN / REGISTO
-========================= */
+===================================================== */
 
 function switchAuthMode() {
 
@@ -807,9 +1050,9 @@ async function authAction() {
 }
 
 
-/* =========================
+/* =====================================================
    LOGIN AUTOMÁTICO
-========================= */
+===================================================== */
 
 async function checkLogin() {
 
@@ -878,6 +1121,8 @@ function showApp() {
     loggedUsername.textContent =
         "Olá, " + currentUsername;
 
+    setStatus("JARVIS ONLINE");
+
     messageInput.focus();
 }
 
@@ -892,9 +1137,9 @@ function showAuth() {
 }
 
 
-/* =========================
+/* =====================================================
    LOGOUT
-========================= */
+===================================================== */
 
 async function logout() {
 
@@ -933,9 +1178,9 @@ async function logout() {
 }
 
 
-/* =========================
+/* =====================================================
    CHAT
-========================= */
+===================================================== */
 
 async function sendMessage() {
 
@@ -945,6 +1190,8 @@ async function sendMessage() {
     if (!text) return;
 
     messageInput.value = "";
+
+    setStatus("A PROCESSAR...");
 
     addMessage(
         "user",
@@ -959,7 +1206,7 @@ async function sendMessage() {
     const loading =
         addMessage(
             "jarvis",
-            "A pensar..."
+            "A analisar..."
         );
 
     try {
@@ -1010,7 +1257,13 @@ async function sendMessage() {
             content: answer
         });
 
+        setStatus("A RESPONDER...");
+
         speak(answer);
+
+        setTimeout(() => {
+            setStatus("JARVIS ONLINE");
+        }, 1800);
 
     } catch (error) {
 
@@ -1020,14 +1273,13 @@ async function sendMessage() {
             "jarvis",
             "Erro: " + error.message
         );
+
+        setStatus("ERRO DE SISTEMA");
     }
 }
 
 
-function addMessage(
-    type,
-    text
-) {
+function addMessage(type, text) {
 
     const div =
         document.createElement("div");
@@ -1058,7 +1310,6 @@ function addMessage(
         text;
 
     div.appendChild(name);
-
     div.appendChild(content);
 
     messages.appendChild(div);
@@ -1081,9 +1332,9 @@ function handleEnter(event) {
 }
 
 
-/* =========================
+/* =====================================================
    VOZ
-========================= */
+===================================================== */
 
 function speak(text) {
 
@@ -1100,7 +1351,22 @@ function speak(text) {
         "pt-PT";
 
     utterance.rate =
-        1;
+        0.95;
+
+    utterance.pitch =
+        0.9;
+
+    utterance.onstart = function() {
+
+        setStatus("A FALAR...");
+
+    };
+
+    utterance.onend = function() {
+
+        setStatus("JARVIS ONLINE");
+
+    };
 
     speechSynthesis.speak(
         utterance
@@ -1108,9 +1374,9 @@ function speak(text) {
 }
 
 
-/* =========================
+/* =====================================================
    MICROFONE
-========================= */
+===================================================== */
 
 function startVoice() {
 
@@ -1139,23 +1405,52 @@ function startVoice() {
     recognition.interimResults =
         false;
 
+    micButton.classList.add("listening");
+
+    setStatus("A OUVIR...");
+
     recognition.start();
 
     recognition.onresult =
         function(event) {
 
-            messageInput.value =
+            const text =
                 event.results[0][0]
                     .transcript;
 
+            messageInput.value =
+                text;
+
+            micButton.classList.remove(
+                "listening"
+            );
+
             sendMessage();
+        };
+
+    recognition.onerror =
+        function() {
+
+            micButton.classList.remove(
+                "listening"
+            );
+
+            setStatus("JARVIS ONLINE");
+        };
+
+    recognition.onend =
+        function() {
+
+            micButton.classList.remove(
+                "listening"
+            );
         };
 }
 
 
-/* =========================
+/* =====================================================
    MEMÓRIA
-========================= */
+===================================================== */
 
 function openMemoryPanel() {
 
@@ -1292,9 +1587,7 @@ function renderMemories(memories) {
                 };
 
             item.appendChild(text);
-
             item.appendChild(date);
-
             item.appendChild(button);
 
             memoryList.appendChild(item);
@@ -1348,9 +1641,9 @@ async function deleteMemory(id) {
 }
 
 
-/* =========================
+/* =====================================================
    SEGURANÇA
-========================= */
+===================================================== */
 
 function escapeHTML(text) {
 
@@ -1364,9 +1657,9 @@ function escapeHTML(text) {
 }
 
 
-/* =========================
+/* =====================================================
    INICIAR
-========================= */
+===================================================== */
 
 checkLogin();
 
