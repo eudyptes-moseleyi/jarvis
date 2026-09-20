@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JARVIS</title>
+
+<title>JARVIS AI</title>
 
 <style>
 * {
@@ -13,337 +14,406 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #05070d;
+    background: linear-gradient(135deg, #050505, #101820);
     color: white;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 #authScreen {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
 }
 
-.authBox {
-    width: 100%;
-    max-width: 420px;
-    background: #101522;
-    border: 1px solid #26334d;
-    border-radius: 20px;
+.auth-box {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(15, 20, 25, 0.95);
+    border: 1px solid #00c8ff;
+    border-radius: 15px;
     padding: 30px;
-    box-shadow: 0 0 40px rgba(0,180,255,.15);
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
 }
 
 .logo {
     text-align: center;
+    color: #00c8ff;
     font-size: 42px;
-    font-weight: bold;
-    color: #00c8ff;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #8995aa;
-    margin-bottom: 25px;
-}
-
-input {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: 1px solid #303d55;
-    border-radius: 10px;
-    background: #080c14;
-    color: white;
-    outline: none;
-    font-size: 16px;
-}
-
-input:focus {
-    border-color: #00c8ff;
-}
-
-button {
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    background: #00aeea;
-    color: white;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #008fca;
-}
-
-.authButton {
-    width: 100%;
-    margin-top: 15px;
-}
-
-.switchButton {
-    width: 100%;
-    margin-top: 10px;
-    background: #202a3b;
-}
-
-#errorMessage {
-    color: #ff6b6b;
-    text-align: center;
-    margin-top: 15px;
-    min-height: 20px;
-}
-
-/* APP */
-
-#appScreen {
-    display: none;
-    min-height: 100vh;
-}
-
-.header {
-    height: 70px;
-    background: #0b101b;
-    border-bottom: 1px solid #202b40;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-}
-
-.headerLeft {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.headerLogo {
-    color: #00c8ff;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.username {
-    color: #8995aa;
-}
-
-.headerButtons {
-    display: flex;
-    gap: 8px;
-}
-
-.memoryButton {
-    background: #303a50;
-}
-
-.logoutButton {
-    background: #8f2633;
-}
-
-/* CHAT */
-
-.main {
-    height: calc(100vh - 70px);
-    display: flex;
-}
-
-.chatArea {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 25px;
-}
-
-.message {
-    max-width: 800px;
-    margin: 0 auto 18px auto;
-    padding: 15px 18px;
-    border-radius: 15px;
-    line-height: 1.5;
-    white-space: pre-wrap;
-}
-
-.userMessage {
-    background: #123149;
-    margin-left: auto;
-}
-
-.jarvisMessage {
-    background: #111927;
-    border: 1px solid #202c40;
-}
-
-.messageName {
-    font-size: 12px;
-    color: #00c8ff;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.inputArea {
-    padding: 15px;
-    border-top: 1px solid #202b40;
-    background: #0b101b;
+.subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 25px;
 }
 
-.inputBox {
-    max-width: 900px;
-    margin: auto;
+.auth-box input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #344;
+    background: #080c10;
+    color: white;
+    font-size: 16px;
+}
+
+.auth-box button {
+    width: 100%;
+    padding: 13px;
+    border: 0;
+    border-radius: 8px;
+    background: #00aeea;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.auth-box button:hover {
+    background: #008ec0;
+}
+
+#switchButton {
+    background: #252d35;
+}
+
+#errorMessage {
+    color: #ff5555;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* =========================
+   APP
+========================= */
+
+#appScreen {
+    display: none;
+    height: 100vh;
+}
+
+.topbar {
+    height: 65px;
+    background: #080d12;
+    border-bottom: 1px solid #24313a;
+
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+}
+
+.topbar-title {
+    color: #00c8ff;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
     gap: 8px;
 }
 
-#messageInput {
-    margin: 0;
-    flex: 1;
+#loggedUsername {
+    color: #888;
+    margin-right: 5px;
 }
 
-.sendButton {
-    min-width: 90px;
+.topbar button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 12px;
+    color: white;
+    background: #26333d;
+    cursor: pointer;
 }
 
-.micButton {
-    background: #303a50;
+.topbar button:hover {
+    background: #34444f;
 }
 
-/* MEMÓRIA */
+#logoutButton {
+    background: #7d2630;
+}
 
-#memoryPanel {
-    position: fixed;
-    top: 0;
-    right: -430px;
-    width: 420px;
-    max-width: 95vw;
-    height: 100vh;
-    background: #0d1320;
-    border-left: 1px solid #26334d;
-    z-index: 1000;
-    transition: right .3s ease;
-    box-shadow: -10px 0 40px rgba(0,0,0,.5);
+#logoutButton:hover {
+    background: #a32d39;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat {
+    height: calc(100vh - 65px);
     display: flex;
     flex-direction: column;
 }
 
-#memoryPanel.open {
-    right: 0;
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
 }
+
+.message {
+    max-width: 800px;
+    margin: 0 auto 15px auto;
+    padding: 13px 16px;
+    border-radius: 12px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.user {
+    background: #12384d;
+    margin-right: 0;
+}
+
+.jarvis {
+    background: #151c22;
+    border: 1px solid #26343d;
+    margin-left: 0;
+}
+
+.message-name {
+    color: #00c8ff;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.input-area {
+    background: #080d12;
+    border-top: 1px solid #24313a;
+    padding: 12px;
+}
+
+.input-container {
+    max-width: 900px;
+    margin: auto;
+
+    display: flex;
+    gap: 7px;
+}
+
+#messageInput {
+    flex: 1;
+    margin: 0;
+    padding: 13px;
+
+    border: 1px solid #34434d;
+    border-radius: 8px;
+
+    background: #10161b;
+    color: white;
+
+    outline: none;
+    font-size: 16px;
+}
+
+#messageInput:focus {
+    border-color: #00c8ff;
+}
+
+.input-container button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+
+    background: #00aeea;
+    color: white;
+
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#micButton {
+    background: #26333d;
+}
+
+/* =========================
+   PAINEL DE MEMÓRIA
+========================= */
 
 #memoryOverlay {
     display: none;
+
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.55);
-    z-index: 999;
+
+    background: rgba(0,0,0,0.55);
+
+    z-index: 50;
 }
 
-#memoryOverlay.open {
+#memoryOverlay.show {
     display: block;
 }
 
-.memoryHeader {
+#memoryPanel {
+    position: fixed;
+
+    top: 0;
+    right: -390px;
+
+    width: 370px;
+    max-width: 90%;
+
+    height: 100vh;
+
+    background: #0b1116;
+
+    border-left: 1px solid #00c8ff;
+
+    z-index: 100;
+
+    transition: right 0.3s ease;
+
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+}
+
+#memoryPanel.show {
+    right: 0;
+}
+
+.memory-header {
+    height: 65px;
+
+    display: flex;
     align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #26334d;
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    border-bottom: 1px solid #26343d;
 }
 
-.memoryTitle {
-    font-size: 22px;
-    font-weight: bold;
+.memory-header h2 {
+    margin: 0;
     color: #00c8ff;
+    font-size: 21px;
 }
 
-.memoryInfo {
-    padding: 15px 20px;
-    color: #8995aa;
-    font-size: 14px;
+.memory-header button {
+    border: none;
+    border-radius: 7px;
+
+    background: #26333d;
+    color: white;
+
+    padding: 8px 12px;
+
+    cursor: pointer;
 }
 
-.memoryList {
+.memory-description {
+    padding: 15px;
+
+    color: #888;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid #202a31;
+}
+
+#memoryList {
     flex: 1;
     overflow-y: auto;
     padding: 15px;
 }
 
-.memoryItem {
-    background: #141c2b;
-    border: 1px solid #26334d;
-    border-radius: 12px;
-    padding: 14px;
+.memory {
+    background: #151d23;
+
+    border: 1px solid #26343d;
+
+    border-radius: 9px;
+
+    padding: 12px;
+
     margin-bottom: 10px;
 }
 
-.memoryText {
+.memory-text {
+    color: white;
     line-height: 1.4;
 }
 
-.memoryDate {
-    color: #68758a;
+.memory-date {
+    color: #65727c;
     font-size: 11px;
-    margin-top: 8px;
+    margin-top: 7px;
 }
 
-.deleteMemory {
-    margin-top: 10px;
-    background: #812734;
-    padding: 7px 10px;
-    font-size: 12px;
+.memory-delete {
+    margin-top: 9px;
+
+    border: none;
+    border-radius: 6px;
+
+    padding: 6px 9px;
+
+    background: #7d2630;
+    color: white;
+
+    cursor: pointer;
 }
 
-.emptyMemory {
+.no-memory {
     text-align: center;
-    color: #68758a;
-    padding: 40px 20px;
+    color: #65727c;
+    padding: 30px 10px;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
 
-    .header {
-        padding: 0 10px;
-    }
-
-    .headerLogo {
+    .topbar-title {
         font-size: 20px;
     }
 
-    .username {
+    #loggedUsername {
         display: none;
     }
 
-    .headerButtons button {
-        padding: 9px 10px;
+    .topbar button {
+        padding: 8px;
         font-size: 12px;
     }
 
-    .messages {
-        padding: 12px;
+    #memoryPanel {
+        width: 340px;
     }
 
     .message {
-        font-size: 15px;
+        font-size: 14px;
     }
 
-    .inputBox {
+    .input-container {
         gap: 5px;
     }
 
-    .sendButton {
-        min-width: 65px;
+    .input-container button {
         padding: 10px;
     }
 }
@@ -352,15 +422,22 @@ button:hover {
 
 <body>
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
 <div id="authScreen">
 
-    <div class="authBox">
+    <div class="auth-box">
 
-        <div class="logo">JARVIS</div>
+        <div class="logo">
+            JARVIS
+        </div>
 
-        <div class="subtitle" id="authSubtitle">
+        <div
+            class="subtitle"
+            id="authSubtitle"
+        >
             Entra na tua conta
         </div>
 
@@ -377,7 +454,6 @@ button:hover {
         >
 
         <button
-            class="authButton"
             id="authButton"
             onclick="authAction()"
         >
@@ -385,7 +461,6 @@ button:hover {
         </button>
 
         <button
-            class="switchButton"
             id="switchButton"
             onclick="switchAuthMode()"
         >
@@ -399,36 +474,30 @@ button:hover {
 </div>
 
 
-<!-- APP -->
+<!-- =========================
+     JARVIS
+========================= -->
 
 <div id="appScreen">
 
-    <div class="header">
+    <div class="topbar">
 
-        <div class="headerLeft">
-
-            <div class="headerLogo">
-                JARVIS
-            </div>
-
-            <div
-                class="username"
-                id="loggedUsername"
-            ></div>
-
+        <div class="topbar-title">
+            JARVIS
         </div>
 
-        <div class="headerButtons">
+        <div class="topbar-right">
+
+            <span id="loggedUsername"></span>
 
             <button
-                class="memoryButton"
                 onclick="openMemoryPanel()"
             >
                 🧠 Memória
             </button>
 
             <button
-                class="logoutButton"
+                id="logoutButton"
                 onclick="logout()"
             >
                 Sair
@@ -439,54 +508,46 @@ button:hover {
     </div>
 
 
-    <div class="main">
+    <div class="chat">
 
-        <div class="chatArea">
+        <div id="messages">
 
-            <div
-                class="messages"
-                id="messages"
-            >
+            <div class="message jarvis">
 
-                <div class="message jarvisMessage">
-
-                    <div class="messageName">
-                        JARVIS
-                    </div>
-
-                    Olá! Sou o JARVIS. Como posso ajudar?
-
+                <div class="message-name">
+                    JARVIS
                 </div>
+
+                Olá! Sou o JARVIS. Como posso ajudar?
 
             </div>
 
+        </div>
 
-            <div class="inputArea">
 
-                <div class="inputBox">
+        <div class="input-area">
 
-                    <button
-                        class="micButton"
-                        onclick="startVoice()"
-                    >
-                        🎤
-                    </button>
+            <div class="input-container">
 
-                    <input
-                        id="messageInput"
-                        type="text"
-                        placeholder="Fala com o JARVIS..."
-                        onkeydown="handleEnter(event)"
-                    >
+                <button
+                    id="micButton"
+                    onclick="startVoice()"
+                >
+                    🎤
+                </button>
 
-                    <button
-                        class="sendButton"
-                        onclick="sendMessage()"
-                    >
-                        Enviar
-                    </button>
+                <input
+                    id="messageInput"
+                    type="text"
+                    placeholder="Escreve uma mensagem..."
+                    onkeydown="handleEnter(event)"
+                >
 
-                </div>
+                <button
+                    onclick="sendMessage()"
+                >
+                    Enviar
+                </button>
 
             </div>
 
@@ -497,41 +558,43 @@ button:hover {
 </div>
 
 
-<!-- MEMÓRIA -->
+<!-- =========================
+     MEMÓRIA
+========================= -->
 
 <div
     id="memoryOverlay"
     onclick="closeMemoryPanel()"
 ></div>
 
+
 <div id="memoryPanel">
 
-    <div class="memoryHeader">
+    <div class="memory-header">
 
-        <div class="memoryTitle">
-            🧠 Memórias
-        </div>
+        <h2>
+            🧠 Memória
+        </h2>
 
-        <button onclick="closeMemoryPanel()">
+        <button
+            onclick="closeMemoryPanel()"
+        >
             ✕
         </button>
 
     </div>
 
-    <div class="memoryInfo">
+    <div class="memory-description">
 
         O JARVIS guarda automaticamente informações
-        importantes que aprende sobre ti.
+        importantes que aprende durante as conversas.
 
     </div>
 
-    <div
-        class="memoryList"
-        id="memoryList"
-    >
+    <div id="memoryList">
 
-        <div class="emptyMemory">
-            A carregar...
+        <div class="no-memory">
+            A carregar memórias...
         </div>
 
     </div>
@@ -540,6 +603,10 @@ button:hover {
 
 
 <script>
+
+/* =========================
+   CONFIGURAÇÃO
+========================= */
 
 const WORKER_URL =
     "https://jarvis.2024guiteles.workers.dev";
@@ -554,7 +621,9 @@ let authMode = "login";
 let conversation = [];
 
 
-/* ELEMENTOS */
+/* =========================
+   ELEMENTOS
+========================= */
 
 const authScreen =
     document.getElementById("authScreen");
@@ -599,7 +668,9 @@ const memoryList =
     document.getElementById("memoryList");
 
 
-/* LOGIN / REGISTO */
+/* =========================
+   LOGIN / REGISTO
+========================= */
 
 function switchAuthMode() {
 
@@ -673,8 +744,8 @@ async function authAction() {
                     },
 
                     body: JSON.stringify({
-                        username,
-                        password
+                        username: username,
+                        password: password
                     })
                 }
             );
@@ -736,7 +807,9 @@ async function authAction() {
 }
 
 
-/* VERIFICAR LOGIN */
+/* =========================
+   LOGIN AUTOMÁTICO
+========================= */
 
 async function checkLogin() {
 
@@ -761,7 +834,7 @@ async function checkLogin() {
                     },
 
                     body: JSON.stringify({
-                        token
+                        token: token
                     })
                 }
             );
@@ -794,8 +867,6 @@ async function checkLogin() {
 }
 
 
-/* APP */
-
 function showApp() {
 
     authScreen.style.display =
@@ -821,29 +892,34 @@ function showAuth() {
 }
 
 
-/* LOGOUT */
+/* =========================
+   LOGOUT
+========================= */
 
 async function logout() {
 
     try {
 
-        await fetch(
-            WORKER_URL + "/logout",
-            {
-                method: "POST",
+        if (token) {
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+            await fetch(
+                WORKER_URL + "/logout",
+                {
+                    method: "POST",
 
-                body: JSON.stringify({
-                    token
-                })
-            }
-        );
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-    } catch (e) {}
+                    body: JSON.stringify({
+                        token: token
+                    })
+                }
+            );
+        }
+
+    } catch (error) {}
 
     localStorage.removeItem(
         "jarvis_token"
@@ -857,7 +933,9 @@ async function logout() {
 }
 
 
-/* CHAT */
+/* =========================
+   CHAT
+========================= */
 
 async function sendMessage() {
 
@@ -898,7 +976,7 @@ async function sendMessage() {
                     },
 
                     body: JSON.stringify({
-                        token,
+                        token: token,
                         messages:
                             conversation
                     })
@@ -946,9 +1024,10 @@ async function sendMessage() {
 }
 
 
-/* MENSAGENS */
-
-function addMessage(type, text) {
+function addMessage(
+    type,
+    text
+) {
 
     const div =
         document.createElement("div");
@@ -957,15 +1036,15 @@ function addMessage(type, text) {
         "message " +
         (
             type === "user"
-                ? "userMessage"
-                : "jarvisMessage"
+                ? "user"
+                : "jarvis"
         );
 
     const name =
         document.createElement("div");
 
     name.className =
-        "messageName";
+        "message-name";
 
     name.textContent =
         type === "user"
@@ -1002,7 +1081,9 @@ function handleEnter(event) {
 }
 
 
-/* VOZ */
+/* =========================
+   VOZ
+========================= */
 
 function speak(text) {
 
@@ -1012,18 +1093,24 @@ function speak(text) {
 
     speechSynthesis.cancel();
 
-    const voice =
+    const utterance =
         new SpeechSynthesisUtterance(text);
 
-    voice.lang = "pt-PT";
+    utterance.lang =
+        "pt-PT";
 
-    voice.rate = 1;
+    utterance.rate =
+        1;
 
-    speechSynthesis.speak(voice);
+    speechSynthesis.speak(
+        utterance
+    );
 }
 
 
-/* MICROFONE */
+/* =========================
+   MICROFONE
+========================= */
 
 function startVoice() {
 
@@ -1034,7 +1121,7 @@ function startVoice() {
     if (!Recognition) {
 
         alert(
-            "O navegador não suporta reconhecimento de voz."
+            "O teu navegador não suporta reconhecimento de voz."
         );
 
         return;
@@ -1066,34 +1153,32 @@ function startVoice() {
 }
 
 
-/* ABRIR MEMÓRIA */
+/* =========================
+   MEMÓRIA
+========================= */
 
 function openMemoryPanel() {
 
-    memoryPanel.classList.add("open");
+    memoryPanel.classList.add("show");
 
-    memoryOverlay.classList.add("open");
+    memoryOverlay.classList.add("show");
 
     loadMemories();
 }
 
 
-/* FECHAR MEMÓRIA */
-
 function closeMemoryPanel() {
 
-    memoryPanel.classList.remove("open");
+    memoryPanel.classList.remove("show");
 
-    memoryOverlay.classList.remove("open");
+    memoryOverlay.classList.remove("show");
 }
 
-
-/* CARREGAR MEMÓRIAS */
 
 async function loadMemories() {
 
     memoryList.innerHTML =
-        `<div class="emptyMemory">
+        `<div class="no-memory">
             A carregar memórias...
         </div>`;
 
@@ -1111,7 +1196,7 @@ async function loadMemories() {
                     },
 
                     body: JSON.stringify({
-                        token
+                        token: token
                     })
                 }
             );
@@ -1134,7 +1219,7 @@ async function loadMemories() {
     } catch (error) {
 
         memoryList.innerHTML =
-            `<div class="emptyMemory">
+            `<div class="no-memory">
                 Erro:<br><br>
                 ${escapeHTML(error.message)}
             </div>`;
@@ -1142,18 +1227,16 @@ async function loadMemories() {
 }
 
 
-/* MOSTRAR MEMÓRIAS */
-
 function renderMemories(memories) {
 
     if (memories.length === 0) {
 
         memoryList.innerHTML =
-            `<div class="emptyMemory">
+            `<div class="no-memory">
                 🧠<br><br>
-                Ainda não tenho memórias sobre ti.
+                Ainda não tenho memórias guardadas.
                 <br><br>
-                Continua a conversar comigo.
+                Continua a conversar com o JARVIS.
             </div>`;
 
         return;
@@ -1161,64 +1244,64 @@ function renderMemories(memories) {
 
     memoryList.innerHTML = "";
 
-    memories.forEach(memory => {
+    memories.forEach(
+        memory => {
 
-        const item =
-            document.createElement("div");
+            const item =
+                document.createElement("div");
 
-        item.className =
-            "memoryItem";
+            item.className =
+                "memory";
 
-        const text =
-            document.createElement("div");
+            const text =
+                document.createElement("div");
 
-        text.className =
-            "memoryText";
+            text.className =
+                "memory-text";
 
-        text.textContent =
-            memory.memory;
+            text.textContent =
+                memory.memory;
 
-        const date =
-            document.createElement("div");
+            const date =
+                document.createElement("div");
 
-        date.className =
-            "memoryDate";
+            date.className =
+                "memory-date";
 
-        date.textContent =
-            memory.created_at
-                ? "Guardada em " +
-                  memory.created_at
-                : "";
+            date.textContent =
+                memory.created_at
+                    ? "Guardada em " +
+                      memory.created_at
+                    : "";
 
-        const button =
-            document.createElement("button");
+            const button =
+                document.createElement("button");
 
-        button.className =
-            "deleteMemory";
+            button.className =
+                "memory-delete";
 
-        button.textContent =
-            "🗑️ Esquecer";
+            button.textContent =
+                "🗑️ Esquecer";
 
-        button.onclick =
-            function() {
+            button.onclick =
+                function() {
 
-                deleteMemory(
-                    memory.id
-                );
-            };
+                    deleteMemory(
+                        memory.id
+                    );
+                };
 
-        item.appendChild(text);
+            item.appendChild(text);
 
-        item.appendChild(date);
+            item.appendChild(date);
 
-        item.appendChild(button);
+            item.appendChild(button);
 
-        memoryList.appendChild(item);
-    });
+            memoryList.appendChild(item);
+        }
+    );
 }
 
-
-/* APAGAR MEMÓRIA */
 
 async function deleteMemory(id) {
 
@@ -1236,8 +1319,8 @@ async function deleteMemory(id) {
                     },
 
                     body: JSON.stringify({
-                        token,
-                        id
+                        token: token,
+                        id: id
                     })
                 }
             );
@@ -1249,7 +1332,7 @@ async function deleteMemory(id) {
 
             throw new Error(
                 data.erro ||
-                "Erro ao apagar."
+                "Erro ao apagar memória."
             );
         }
 
@@ -1265,7 +1348,9 @@ async function deleteMemory(id) {
 }
 
 
-/* SEGURANÇA */
+/* =========================
+   SEGURANÇA
+========================= */
 
 function escapeHTML(text) {
 
@@ -1279,7 +1364,9 @@ function escapeHTML(text) {
 }
 
 
-/* INICIAR */
+/* =========================
+   INICIAR
+========================= */
 
 checkLogin();
 
